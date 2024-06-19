@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #77dd9e;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+header p {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+section {
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+h2 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+.job, .education-item, .project {
+    margin-bottom: 20px;
+}
+
+h4 {
+    padding-bottom: 10px;
+    color:rgb(93, 167, 93);
+    margin: 2px;
+}
+
+h3 {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: rgb(206, 219, 206);
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+footer {
+    background-color: #a2cdd8;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
