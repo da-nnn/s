@@ -1,47 +1,72 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const addTaskBtn = document.getElementById('add-task-btn');
+    const taskForm = document.getElementById('task-form');
     const taskList = document.getElementById('task-list');
 
-    addTaskBtn.addEventListener('click', () => {
-        const taskInput = document.getElementById('new-task');
-        const reminderInput = document.getElementById('task-reminder');
-        const taskText = taskInput.value;
-        const reminderTime = reminderInput.value;
+    taskForm.addEventListener('submit', addTask);
 
-        if (taskText === '') {
-            alert('Please enter a task.');
-            return;
+    function addTask(e) {
+        e.preventDefault();
+
+        const newTaskInput = document.getElementById('new-task');
+        const taskTimeInput = document.getElementById('task-time');
+        const newTaskText = newTaskInput.value.trim();
+        const taskTime = taskTimeInput.value;
+
+        if (newTaskText !== '' && taskTime !== '') {
+            const li = document.createElement('li');
+
+            const taskContent = document.createElement('div');
+            taskContent.className = 'task-content';
+
+            const span = document.createElement('span');
+            span.textContent = `${newTaskText} - ${new Date(taskTime).toLocaleString()}`;
+            taskContent.appendChild(span);
+
+            const buttonsDiv = document.createElement('div');
+
+            const doneButton = document.createElement('button');
+            doneButton.textContent = 'Done';
+            doneButton.className = 'done-btn';
+            doneButton.addEventListener('click', markAsDone);
+            buttonsDiv.appendChild(doneButton);
+
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.className = 'edit-btn';
+            editButton.addEventListener('click', () => editTask(li, newTaskText, taskTime));
+            buttonsDiv.appendChild(editButton);
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.className = 'remove-btn';
+            removeButton.addEventListener('click', removeTask);
+            buttonsDiv.appendChild(removeButton);
+
+            taskContent.appendChild(buttonsDiv);
+            li.appendChild(taskContent);
+
+            taskList.appendChild(li);
+            newTaskInput.value = '';
+            taskTimeInput.value = '';
         }
+    }
 
-        const taskItem = document.createElement('li');
-        taskItem.innerHTML = `
-            <span>${taskText}</span>
-            <button class="delete-btn">Delete</button>
-        `;
+    function markAsDone(e) {
+        const li = e.target.closest('li');
+        li.classList.toggle('done');
+    }
 
-        taskItem.addEventListener('click', () => {
-            taskItem.classList.toggle('completed');
-        });
+    function removeTask(e) {
+        const li = e.target.closest('li');
+        taskList.removeChild(li);
+    }
 
-        taskItem.querySelector('.delete-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            taskItem.remove();
-        });
+    function editTask(li, oldText, oldTime) {
+        const newTaskText = prompt('Edit task:', oldText);
+        const newTaskTime = prompt('Edit time (yyyy-mm-ddThh:mm):', oldTime);
 
-        taskList.appendChild(taskItem);
-        taskInput.value = '';
-        reminderInput.value = '';
-
-        if (reminderTime !== '') {
-            const reminderDate = new Date(reminderTime);
-            const now = new Date();
-            const timeToReminder = reminderDate.getTime() - now.getTime();
-
-            if (timeToReminder > 0) {
-                setTimeout(() => {
-                    alert(`Reminder: ${taskText}`);
-                }, timeToReminder);
-            }
+        if (newTaskText !== null && newTaskText.trim() !== '' && newTaskTime !== null && newTaskTime.trim() !== '') {
+            li.querySelector('span').textContent = `${newTaskText.trim()} - ${new Date(newTaskTime.trim()).toLocaleString()}`;
         }
-    });
+    }
 });
